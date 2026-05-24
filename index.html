@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSS Animations — Text · Hover · Buttons</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-eyebrow">40 efeitos criativos</div>
+    <h1 class="hero-title">
+      <span class="word w1">CSS</span>
+      <span class="word w2">Animations</span>
+    </h1>
+    <p class="hero-sub">Text · Hover · Buttons</p>
+    <div class="hero-scroll">↓ role para explorar</div>
+  </header>
+
+  <!-- 01 TEXT ANIMATIONS -->
+  <section class="chapter" id="text">
+    <div class="chapter-header">
+      <span class="chapter-num">01</span>
+      <h2>Text Animations</h2>
+      <p>Efeitos visuais aplicados diretamente no texto</p>
+    </div>
+    <div class="grid">
+
+      <div class="demo-card">
+        <div class="demo-label">Typewriter</div>
+        <div class="demo-stage">
+          <p class="text-typewriter">Olá, mundo!</p>
+        </div>
+        <code class="demo-code">animation: typing, blink-caret</code>
+      </div>
+
+      <div class="demo-card">
+        <div class="demo-label">Gradient Shift</div>
+        <div class="demo-stage">
+          <p class="text-gradient">Colorido</p>
+        </div>
+        <code class="demo-code">background-clip: text + animate</code>
+      </div>
+
+      <div class="demo-card">
+        <div class="demo-label">Glitch</div>
+        <div class="demo-stage">
+          <p class="text-glitch" data-text="GLITCH">GLITCH</p>
+        </div>
+        <code class="demo-code">clip-path + translate pseudo-elements</code>
+      </div>
+
+      <div class="demo-card">
+        <div class="demo-label">Wave</div>
+        <div class="demo-stage">
+          <p class="text-wave">
+            <span style="--i:0">W</span><span style="--i:1">A</span>
+            <span style="--i:2">V</span><span style="--i:3">E</span>
+          </p>
+        </div>
+        <code class="demo-code">animation-delay: calc(var(--i) * 0.1s)</code>
+      </div>
+
+      <div class="demo-card dark-stage">
+        <div class="demo-label">Neon Glow</div>
+        <div class="demo-stage stage-dark">
+          <p class="text-neon">NEON</p>
+        </div>
+        <code class="demo-code">text-shadow pulse animation</code>
+      </div>
+
+      <div class="demo-card">
+        <div class="demo-label">Blur In (hover)</div>
+        <div class="demo-stage">
+          <p class="text-blur">Foco</p>
+        </div>
+        <code class="demo-code">filter: blur() → 0 on hover</code>
+      </div>
+
+      <div class="demo-card">
+        <div class="demo-label">Wipe Reveal</div>
+        <div class="demo-stage">
+          <p class="text-wipe">Revelado</p>
+        </div>
+        <code class="demo-code">clip-path: inset() animate</code>
+      </div>
+
+      <div class="demo-card">
+        <div class="demo-label">Shake (hover)</div>
+        <div class="demo-stage">
+          <p class="text-shake">Segura!</p>
+        </div>
+        <code class="demo-code">translateX keyframes shake</code>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 02 HOVER EFFECTS -->
+  <section class="chapter" id="hover">
+    <div class="chapter-header">
+      <span class="chapter-num">02</span>
+      <h2>Hover Effects</h2>
+      <p>Interações ativadas ao passar o mouse</p>
+    </div>
+    <div class="grid">
+
+      <div class="demo-card">
+        <div class="demo-label">Magnetic Lift</div>
+        <div class="demo-stage">
+          <div class="hover-lift">Card</div>
+        </div>
+        <code class="demo-code">transform: translateY + box-shadow</code>
+      </div>
+
+      <div class="demo-card">
+        <div class="demo-label">Border Draw</div>
+        <div class="demo-stage">
+          <div class="hover-border-draw">Hover</div>
+        </div>
+        <code class="demo-code">pseudo-element width/height 0→100%</code>
+      </div>
+
+      <div class="demo-card">
+        <div class="demo-label">3D Tilt</div>
+        <div class="demo-stage">
+          <div class="hover-tilt">Inclinar</div>
+        </div>
+        <code class="demo-code">rotateX/Y + perspective</code>
+      </div>
+
+      <div class="demo-card">
+        <div class="demo-label">Fill From Bottom</div>
+        <div class="demo-stage">
+          <div class="hover-fill">Preencher</div>
+        </div>
+        <code class="demo-code">pseudo-element scaleY 0→1</code>
+      </div>
+
+      <div class="demo-card dark-stage">
+        <div class="demo-label">Spotlight</div>
+        <div class="demo-stage stage-dark">
+          <div class="hover-spotlight">Spotlight</div>
+        </div>
+        <code class="demo-code">radial-gradient background-position</code>
+      </div>
+
+      <div class="demo-card">
+        <div class="demo-label">Rubber Band</div>
+        <div class="demo-stage">
+          <div class="hover-rubber">Elástico</div>
+        </div>
+        <code class="demo-code">scaleX/Y alternating keyframes</code>
+      </div>
+
+      <div class="demo-card dark-stage">
+        <div class="demo-label">Glow Ring</div>
+        <div class="demo-stage stage-dark">
+          <div class="hover-glow">Brilho</div>
+        </div>
+        <code class="demo-code">box-shadow expand on hover</code>
+      </div>
+
+      <div class="demo-card">
+        <div class="demo-label">Flip Card</div>
+        <div class="demo-stage">
+          <div class="hover-flip-wrap">
+            <div class="hover-flip">
+              <div class="flip-front">Frente</div>
+              <div class="flip-back">Verso ✓</div>
+            </div>
+          </div>
+        </div>
+        <code class="demo-code">rotateY 0→180deg + backface-visibility</code>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 03 BUTTON ANIMATIONS -->
+  <section class="chapter" id="buttons">
+    <div class="chapter-header">
+      <span class="chapter-num">03</span>
+      <h2>Button Animations</h2>
+      <p>Botões com vida própria</p>
+    </div>
+    <div class="grid grid-buttons">
+
+      <div class="demo-card">
+        <div class="demo-label">Slide Arrow</div>
+        <div class="demo-stage">
+          <button class="btn btn-arrow">Enviar <span class="arrow">→</span></button>
+        </div>
+        <code class="demo-code">arrow translateX on hover</code>
+      </div>
+
+      <div class="demo-card">
+        <div class="demo-label">Ripple</div>
+        <div class="demo-stage">
+          <button class="btn btn-ripple">Clique aqui</button>
+        </div>
+        <code class="demo-code">pseudo-element scale 0→3 fade-out</code>
+      </div>
+
+      <div class="demo-card">
+        <div class="demo-label">Shimmer</div>
+        <div class="demo-stage">
+          <button class="btn btn-shimmer">Premium</button>
+        </div>
+        <code class="demo-code">gradient translateX -100%→100%</code>
+      </div>
+
+      <div class="demo-card dark-stage">
+        <div class="demo-label">Pulse Border</div>
+        <div class="demo-stage stage-dark">
+          <button class="btn btn-pulse">Ativo</button>
+        </div>
+        <code class="demo-code">box-shadow scale keyframe loop</code>
+      </div>
+
+      <div class="demo-card">
+        <div class="demo-label">Fill Outline</div>
+        <div class="demo-stage">
+          <button class="btn btn-outline">Explorar</button>
+        </div>
+        <code class="demo-code">background-size 0→100% on hover</code>
+      </div>
+
+      <div class="demo-card">
+        <div class="demo-label">Morph Shape</div>
+        <div class="demo-stage">
+          <button class="btn btn-morph">Transformar</button>
+        </div>
+        <code class="demo-code">border-radius animate on hover</code>
+      </div>
+
+      <div class="demo-card">
+        <div class="demo-label">3D Press</div>
+        <div class="demo-stage">
+          <button class="btn btn-3d">Pressionar</button>
+        </div>
+        <code class="demo-code">translateY + box-shadow on active</code>
+      </div>
+
+      <div class="demo-card dark-stage">
+        <div class="demo-label">Neon Button</div>
+        <div class="demo-stage stage-dark">
+          <button class="btn btn-neon">Cyber</button>
+        </div>
+        <code class="demo-code">text-shadow + box-shadow pulse</code>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <p>Página 2 de 2 · <strong>CSS Creative Animations</strong> · Text · Hover · Buttons</p>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.btn-ripple').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        const circle = document.createElement('span');
+        circle.classList.add('ripple-circle');
+        const rect = this.getBoundingClientRect();
+        circle.style.left = (e.clientX - rect.left) + 'px';
+        circle.style.top  = (e.clientY - rect.top)  + 'px';
+        this.appendChild(circle);
+        setTimeout(() => circle.remove(), 700);
+      });
+    });
+  </script>
+
+</body>
+</html>

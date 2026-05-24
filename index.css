@@ -1,0 +1,375 @@
+/* === CSS CREATIVE ANIMATIONS — style.css === */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:     #f5f4f0;
+  --surface:#ffffff;
+  --dark:   #0d0d14;
+  --ink:    #1a1a2e;
+  --muted:  #8888a0;
+  --border: #e0e0ea;
+  --c1:     #e63b60;
+  --c2:     #7c3bfc;
+  --c3:     #3bfcd4;
+  --c4:     #fcb73b;
+  --radius: 14px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; padding: 4rem 2rem;
+  background: var(--dark); color: #fff;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 80%, rgba(124,59,252,0.25) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 80% 20%, rgba(230,59,96,0.2)  0%, transparent 60%);
+}
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace; font-size: 0.75rem;
+  letter-spacing: 0.25em; color: rgba(255,255,255,0.5);
+  text-transform: uppercase; margin-bottom: 1.5rem; position: relative;
+}
+.hero-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(4rem, 12vw, 9rem);
+  line-height: 0.95; position: relative;
+}
+.word { display: block; animation: wordEnter 0.8s cubic-bezier(0.22,1,0.36,1) both; }
+.w1 { color: #fff; animation-delay: 0.1s; }
+.w2 { color: transparent; -webkit-text-stroke: 2px var(--c1); animation-delay: 0.25s; }
+@keyframes wordEnter {
+  from { opacity: 0; transform: translateY(60px) skewY(4deg); }
+  to   { opacity: 1; transform: translateY(0)    skewY(0deg); }
+}
+.hero-sub {
+  margin-top: 1.5rem; font-size: 1.1rem;
+  color: rgba(255,255,255,0.5); letter-spacing: 0.15em;
+  position: relative; animation: wordEnter 0.8s 0.45s cubic-bezier(0.22,1,0.36,1) both;
+}
+.hero-scroll {
+  position: absolute; bottom: 2rem;
+  font-family: 'DM Mono', monospace; font-size: 0.75rem;
+  color: rgba(255,255,255,0.3); animation: bounce 2s infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(8px); }
+}
+
+/* CHAPTERS */
+.chapter { padding: 6rem 2rem; max-width: 1200px; margin: 0 auto; }
+.chapter-header {
+  margin-bottom: 3rem; display: flex;
+  align-items: baseline; gap: 1.5rem; flex-wrap: wrap;
+}
+.chapter-num {
+  font-family: 'DM Mono', monospace; font-size: 0.7rem;
+  color: var(--muted); letter-spacing: 0.2em;
+}
+.chapter-header h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  letter-spacing: -0.02em; line-height: 1;
+}
+.chapter-header p { width: 100%; color: var(--muted); font-size: 0.95rem; margin-top: -0.5rem; }
+
+/* GRID */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; }
+.grid-buttons { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+
+/* DEMO CARDS */
+.demo-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.2rem;
+  display: flex; flex-direction: column; gap: 0.8rem;
+}
+.demo-label {
+  font-size: 0.72rem; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+}
+.demo-stage {
+  flex: 1; min-height: 90px;
+  display: flex; align-items: center; justify-content: center;
+  background: #f9f9fc; border-radius: 8px; padding: 1rem;
+}
+.stage-dark { background: var(--dark); }
+.demo-code {
+  font-family: 'DM Mono', monospace; font-size: 0.65rem;
+  color: var(--c2); word-break: break-all; line-height: 1.5;
+}
+
+/* ══ TEXT ANIMATIONS ══ */
+
+/* 1. Typewriter */
+.text-typewriter {
+  font-family: 'DM Mono', monospace; font-size: 1.1rem; font-weight: 500;
+  white-space: nowrap; overflow: hidden;
+  border-right: 2px solid var(--c1); width: 0;
+  animation: typing 2s steps(12,end) 0.3s forwards, blink-caret 0.8s step-end infinite;
+}
+@keyframes typing { from { width: 0; } to { width: 8ch; } }
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50%       { border-color: var(--c1); }
+}
+
+/* 2. Gradient shift */
+.text-gradient {
+  font-family: 'DM Serif Display', serif; font-size: 2.5rem;
+  background: linear-gradient(90deg, var(--c1), var(--c2), var(--c3), var(--c4), var(--c1));
+  background-size: 300% 100%;
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 3s linear infinite;
+}
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+/* 3. Glitch */
+.text-glitch {
+  font-family: 'DM Serif Display', serif; font-size: 2rem; font-weight: 900;
+  position: relative; color: var(--ink); animation: glitch-main 3s infinite;
+}
+.text-glitch::before,
+.text-glitch::after {
+  content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%;
+}
+.text-glitch::before {
+  color: var(--c1); animation: glitch-before 3s infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+}
+.text-glitch::after {
+  color: var(--c2); animation: glitch-after 3s infinite;
+  clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+}
+@keyframes glitch-main {
+  0%, 90%, 100% { transform: translate(0); }
+  91% { transform: translate(2px,-1px); }
+  93% { transform: translate(-2px,1px); }
+  95% { transform: translate(1px,2px); }
+}
+@keyframes glitch-before {
+  0%, 90%, 100% { transform: translate(0); }
+  91% { transform: translate(-3px,1px); }
+  93% { transform: translate(3px,-1px); }
+}
+@keyframes glitch-after {
+  0%, 90%, 100% { transform: translate(0); }
+  91% { transform: translate(3px,2px); }
+  93% { transform: translate(-2px,-2px); }
+}
+
+/* 4. Wave */
+.text-wave { font-family: 'DM Serif Display', serif; font-size: 2.5rem; display: flex; gap: 2px; }
+.text-wave span {
+  display: inline-block; color: var(--c2);
+  animation: waveUp 1.2s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.15s);
+}
+@keyframes waveUp {
+  0%, 60%, 100% { transform: translateY(0); }
+  30%            { transform: translateY(-14px); }
+}
+
+/* 5. Neon glow */
+.text-neon {
+  font-family: 'DM Serif Display', serif; font-size: 2.5rem;
+  color: var(--c3); animation: neonPulse 2s ease-in-out infinite;
+}
+@keyframes neonPulse {
+  0%, 100% { text-shadow: 0 0 4px var(--c3), 0 0 12px var(--c3), 0 0 30px var(--c3); }
+  50%       { text-shadow: 0 0 2px var(--c3), 0 0 6px var(--c3), 0 0 60px var(--c3), 0 0 120px var(--c3); }
+}
+
+/* 6. Blur in */
+.text-blur {
+  font-family: 'DM Serif Display', serif; font-size: 2.5rem;
+  filter: blur(6px); opacity: 0.4;
+  transition: filter 0.5s ease, opacity 0.5s ease;
+  cursor: default; color: var(--ink);
+}
+.demo-stage:hover .text-blur { filter: blur(0); opacity: 1; }
+
+/* 7. Wipe reveal */
+.text-wipe {
+  font-family: 'DM Serif Display', serif; font-size: 2.2rem; color: var(--c1);
+  clip-path: inset(0 100% 0 0);
+  animation: wipeReveal 1.5s cubic-bezier(0.22,1,0.36,1) 0.3s forwards;
+}
+@keyframes wipeReveal { to { clip-path: inset(0 0% 0 0); } }
+
+/* 8. Shake */
+.text-shake { font-family: 'DM Serif Display', serif; font-size: 2.2rem; cursor: default; transition: color 0.2s; }
+.demo-stage:hover .text-shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97); color: var(--c1); }
+@keyframes shake {
+  10%, 90% { transform: translateX(-2px); }
+  20%, 80% { transform: translateX( 4px); }
+  30%, 70% { transform: translateX(-6px); }
+  40%, 60% { transform: translateX( 6px); }
+  50%       { transform: translateX(-4px); }
+}
+
+/* ══ HOVER EFFECTS ══ */
+.hover-lift, .hover-border-draw, .hover-tilt,
+.hover-fill, .hover-spotlight, .hover-rubber, .hover-glow {
+  padding: 1rem 2rem; border-radius: 8px;
+  font-weight: 600; font-size: 0.9rem;
+  cursor: pointer; transition: all 0.35s ease;
+}
+
+/* 1. Magnetic lift */
+.hover-lift { background: var(--surface); border: 1px solid var(--border); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.hover-lift:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+
+/* 2. Border draw */
+.hover-border-draw { background: transparent; border: 1px solid var(--border); position: relative; overflow: hidden; }
+.hover-border-draw::before, .hover-border-draw::after { content: ''; position: absolute; background: var(--c2); }
+.hover-border-draw::before { top: 0; left: -100%; width: 100%; height: 2px; transition: left 0.3s ease; }
+.hover-border-draw::after  { bottom: 0; right: -100%; width: 100%; height: 2px; transition: right 0.3s ease; }
+.hover-border-draw:hover::before { left: 0; }
+.hover-border-draw:hover::after  { right: 0; }
+
+/* 3. 3D Tilt */
+.hover-tilt { background: linear-gradient(135deg, var(--c2), var(--c1)); color: #fff; transform-style: preserve-3d; }
+.hover-tilt:hover { transform: perspective(400px) rotateX(10deg) rotateY(-10deg) scale(1.05); }
+
+/* 4. Fill from bottom */
+.hover-fill { background: transparent; border: 2px solid var(--c1); color: var(--c1); position: relative; overflow: hidden; z-index: 0; }
+.hover-fill::before {
+  content: ''; position: absolute; inset: 0; background: var(--c1);
+  transform: scaleY(0); transform-origin: bottom; transition: transform 0.4s ease; z-index: -1;
+}
+.hover-fill:hover::before { transform: scaleY(1); }
+.hover-fill:hover { color: #fff; }
+
+/* 5. Spotlight */
+.hover-spotlight {
+  background: #1a1a2e; color: rgba(255,255,255,0.4);
+  border: 1px solid rgba(255,255,255,0.08);
+  background-image: radial-gradient(circle at 50% -50%, rgba(255,255,255,0.15), transparent 60%);
+  background-repeat: no-repeat; transition: color 0.3s ease, background-position 0.4s ease;
+}
+.hover-spotlight:hover { color: rgba(255,255,255,0.95); background-position: center center; }
+
+/* 6. Rubber band */
+.hover-rubber { background: var(--c4); color: var(--ink); display: inline-block; }
+.hover-rubber:hover { animation: rubberBand 0.6s cubic-bezier(0.36,.07,.19,.97); }
+@keyframes rubberBand {
+  0%   { transform: scale(1,1);      }
+  30%  { transform: scale(1.25,.75); }
+  40%  { transform: scale(.75,1.25); }
+  60%  { transform: scale(1.15,.85); }
+  80%  { transform: scale(.95,1.05); }
+  100% { transform: scale(1,1);      }
+}
+
+/* 7. Glow ring */
+.hover-glow { background: transparent; color: var(--c3); border: 2px solid var(--c3); transition: box-shadow 0.4s ease; }
+.hover-glow:hover { box-shadow: 0 0 8px var(--c3), 0 0 24px var(--c3), inset 0 0 10px rgba(59,252,212,0.15); }
+
+/* 8. Flip card */
+.hover-flip-wrap { perspective: 600px; width: 110px; height: 56px; }
+.hover-flip { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.22,1,0.36,1); cursor: pointer; }
+.hover-flip-wrap:hover .hover-flip { transform: rotateY(180deg); }
+.flip-front, .flip-back { position: absolute; inset: 0; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-weight: 600; font-size: 0.9rem; }
+.flip-front { background: var(--border); color: var(--ink); }
+.flip-back  { background: var(--c2); color: #fff; transform: rotateY(180deg); }
+
+/* ══ BUTTON ANIMATIONS ══ */
+.btn {
+  font-family: 'Outfit', sans-serif; font-size: 0.9rem; font-weight: 600;
+  padding: 0.7rem 1.6rem; border: none; border-radius: 8px;
+  cursor: pointer; position: relative; overflow: hidden;
+  transition: all 0.3s ease; outline: none; letter-spacing: 0.02em;
+}
+
+/* 1. Slide arrow */
+.btn-arrow { background: var(--ink); color: #fff; display: flex; align-items: center; gap: 0.5rem; }
+.btn-arrow .arrow { display: inline-block; transition: transform 0.3s cubic-bezier(0.22,1,0.36,1); }
+.btn-arrow:hover .arrow { transform: translateX(6px); }
+
+/* 2. Ripple */
+.btn-ripple { background: var(--c2); color: #fff; }
+.btn-ripple:hover { background: #6a2de0; }
+.ripple-circle {
+  position: absolute; border-radius: 50%; background: rgba(255,255,255,0.35);
+  width: 10px; height: 10px;
+  transform: translate(-50%,-50%) scale(0);
+  animation: rippleAnim 0.7s linear; pointer-events: none;
+}
+@keyframes rippleAnim { to { transform: translate(-50%,-50%) scale(30); opacity: 0; } }
+
+/* 3. Shimmer */
+.btn-shimmer {
+  background: linear-gradient(135deg, #1a1a2e 0%, #2d2d50 50%, #1a1a2e 100%);
+  color: #fff; background-size: 200% 100%; animation: shimmerMove 2.5s linear infinite;
+}
+.btn-shimmer::after {
+  content: ''; position: absolute; top: 0; left: -100%;
+  width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  animation: shimmerPass 2.5s linear infinite;
+}
+@keyframes shimmerPass { to { left: 200%; } }
+
+/* 4. Pulse border */
+.btn-pulse { background: transparent; color: var(--c3); border: 2px solid var(--c3); animation: pulseBorder 1.8s ease-in-out infinite; }
+@keyframes pulseBorder {
+  0%, 100% { box-shadow: 0 0 0 0   rgba(59,252,212,0.5); }
+  50%       { box-shadow: 0 0 0 10px rgba(59,252,212,0); }
+}
+
+/* 5. Fill outline */
+.btn-outline {
+  background: transparent; color: var(--c1); border: 2px solid var(--c1);
+  background-image: linear-gradient(var(--c1), var(--c1));
+  background-size: 0 100%; background-repeat: no-repeat; background-position: left center;
+  transition: background-size 0.35s ease, color 0.35s ease;
+}
+.btn-outline:hover { background-size: 100% 100%; color: #fff; }
+
+/* 6. Morph */
+.btn-morph { background: linear-gradient(135deg, var(--c2), var(--c1)); color: #fff; border-radius: 8px; transition: border-radius 0.4s cubic-bezier(0.68,-0.55,0.27,1.55), transform 0.3s ease; }
+.btn-morph:hover { border-radius: 50px; transform: scale(1.05); }
+
+/* 7. 3D Press */
+.btn-3d { background: var(--c4); color: var(--ink); box-shadow: 0 6px 0 #c88a00; transition: transform 0.1s ease, box-shadow 0.1s ease; }
+.btn-3d:hover  { transform: translateY(2px); box-shadow: 0 4px 0 #c88a00; }
+.btn-3d:active { transform: translateY(6px); box-shadow: 0 0px 0 #c88a00; }
+
+/* 8. Neon button */
+.btn-neon { background: transparent; color: var(--c3); border: 2px solid var(--c3); font-family: 'DM Mono', monospace; letter-spacing: 0.15em; animation: neonBtnPulse 2s ease-in-out infinite; }
+.btn-neon:hover { background: rgba(59,252,212,0.1); }
+@keyframes neonBtnPulse {
+  0%, 100% { box-shadow: 0 0 4px var(--c3), 0 0 12px var(--c3); text-shadow: 0 0 8px var(--c3); }
+  50%       { box-shadow: 0 0 12px var(--c3), 0 0 40px var(--c3), inset 0 0 10px rgba(59,252,212,0.1); text-shadow: 0 0 20px var(--c3); }
+}
+
+/* FOOTER */
+.site-footer { text-align: center; padding: 3rem 1rem; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--border); }
+.site-footer strong { color: var(--c2); }
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .chapter { padding: 4rem 1rem; }
+  .grid { grid-template-columns: 1fr; }
+  .chapter-header { flex-direction: column; gap: 0.5rem; }
+}
