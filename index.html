@@ -1,315 +1,629 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CSS Animações</title>
+  <title>NEXORA — Exploração Espacial</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-  <!-- CSS externo (funciona quando aberto localmente) -->
-  <link rel="stylesheet" href="style.css" />
-  <!-- CSS inline (garante funcionamento no visualizador) -->
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Exo+2:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"/>
   <style>
-/* ===========================
+/* ══════════════════════════════════════
    RESET & VARIÁVEIS
-   =========================== */
+══════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:       #0a0a12;
-  --surface:  #12121e;
-  --border:   #1e1e30;
-  --accent-1: #7c3aed;
-  --accent-2: #06b6d4;
-  --accent-3: #f59e0b;
-  --text:     #e2e8f0;
-  --muted:    #64748b;
-  --code-bg:  #0d1117;
-  --radius:   1rem;
+  --bg:       #03050f;
+  --surface:  #080c1a;
+  --border:   #0f1730;
+  --gold:     #c9a84c;
+  --ice:      #4de8f4;
+  --red:      #f4574d;
+  --text:     #d6dff5;
+  --muted:    #4a5578;
+  --glow-ice: rgba(77,232,244,.35);
+  --glow-gold:rgba(201,168,76,.4);
 }
+
+html { scroll-behavior: smooth; }
 
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: 'DM Mono', monospace;
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+/* ══════════════════════════════════════
+   ESTRELAS DE FUNDO
+══════════════════════════════════════ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, #fff 0%, transparent 100%),
+    radial-gradient(1px 1px at 34% 72%, #aac 0%, transparent 100%),
+    radial-gradient(1px 1px at 57% 9%,  #fff 0%, transparent 100%),
+    radial-gradient(1px 1px at 78% 55%, #cce 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 30%, #fff 0%, transparent 100%),
+    radial-gradient(1px 1px at 5%  88%, #aac 0%, transparent 100%),
+    radial-gradient(1px 1px at 45% 43%, #fff 0%, transparent 100%),
+    radial-gradient(2px 2px at 66% 80%, #ddf 0%, transparent 100%),
+    radial-gradient(1px 1px at 23% 55%, #fff 0%, transparent 100%),
+    radial-gradient(1px 1px at 85% 12%, #cce 0%, transparent 100%);
+  opacity: .55;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ══════════════════════════════════════
+   NAVBAR
+══════════════════════════════════════ */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 3rem;
+  background: rgba(3,5,15,.7);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: .18em;
+  color: #fff;
+}
+.logo span { color: var(--gold); }
+
+.nav-links { display: flex; gap: 2.2rem; list-style: none; }
+.nav-links a {
+  font-size: .82rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color .3s;
+}
+.nav-links a:hover { color: var(--ice); }
+
+.nav-cta {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: .85rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  padding: .5rem 1.4rem;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  background: transparent;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background .3s, color .3s;
+}
+.nav-cta:hover { background: var(--gold); color: #000; }
+
+/* ══════════════════════════════════════
+   HERO
+══════════════════════════════════════ */
+.hero {
+  position: relative;
+  z-index: 1;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3rem;
-  padding: 3rem 1.5rem 4rem;
+  justify-content: center;
+  text-align: center;
+  padding: 8rem 2rem 4rem;
+  gap: 2rem;
 }
 
-/* ===========================
-   HERO
-   =========================== */
-.hero { text-align: center; padding-top: 1rem; }
+/* ANIMAÇÃO 1 — animation-name: orbitar
+   O planeta pulsa e tem um anel orbitando ao redor */
+.planet-wrap {
+  position: relative;
+  width: 160px;
+  height: 160px;
+}
 
-.titulo {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(2.4rem, 8vw, 4.8rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1;
+.planet {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 32%,
+    #4de8f4 0%, #0a6e8a 35%, #041428 80%);
+  box-shadow:
+    0 0 40px rgba(77,232,244,.4),
+    0 0 90px rgba(77,232,244,.15),
+    inset -20px -20px 40px rgba(0,0,20,.6);
+  animation-name: pulsar-planeta;
+  animation-duration: 3.5s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+@keyframes pulsar-planeta {
+  0%   { box-shadow: 0 0 40px rgba(77,232,244,.4), 0 0 90px rgba(77,232,244,.15); }
+  50%  { box-shadow: 0 0 70px rgba(77,232,244,.8), 0 0 140px rgba(77,232,244,.3); }
+  100% { box-shadow: 0 0 40px rgba(77,232,244,.4), 0 0 90px rgba(77,232,244,.15); }
+}
+
+.orbit-ring {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 220px; height: 220px;
+  margin: -110px 0 0 -110px;
+  border-radius: 50%;
+  border: 1px solid rgba(77,232,244,.25);
+  animation-name: girar-anel;
+  animation-duration: 6s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.orbit-dot {
+  position: absolute;
+  top: -5px; left: 50%;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--ice);
+  box-shadow: 0 0 12px var(--ice);
+  transform: translateX(-50%);
+}
+
+@keyframes girar-anel {
+  from { transform: rotate(0deg) rotateX(70deg); }
+  to   { transform: rotate(360deg) rotateX(70deg); }
+}
+
+.hero-tag {
+  font-size: .72rem;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid rgba(201,168,76,.3);
+  padding: .35em 1.1em;
+  border-radius: 2px;
+}
+
+.hero h1 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(3rem, 9vw, 7rem);
+  font-weight: 700;
+  line-height: .95;
+  letter-spacing: -.01em;
   color: #fff;
 }
-
-.titulo span {
-  background: linear-gradient(135deg, #a78bfa, #22d3ee);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.hero h1 em {
+  font-style: normal;
+  color: var(--ice);
+  text-shadow: 0 0 40px var(--glow-ice);
 }
 
-.subtitulo {
-  margin-top: 0.75rem;
+.hero p {
+  max-width: 520px;
+  font-size: 1rem;
   color: var(--muted);
-  font-size: 0.8rem;
-  letter-spacing: 0.12em;
+  line-height: 1.75;
+}
+
+.hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+
+.btn-primary {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  font-size: .9rem;
+  letter-spacing: .15em;
   text-transform: uppercase;
+  padding: .8rem 2rem;
+  background: var(--ice);
+  color: #020810;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: box-shadow .3s;
 }
+.btn-primary:hover { box-shadow: 0 0 24px var(--glow-ice); }
 
-/* ===========================
-   GRID DE CARDS
-   =========================== */
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.75rem;
-  width: 100%;
-  max-width: 1080px;
-}
-
-.card {
-  background: var(--surface);
+.btn-ghost {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  font-size: .9rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  padding: .8rem 2rem;
+  background: transparent;
+  color: var(--text);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 2rem 1.75rem;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: border-color .3s;
+}
+.btn-ghost:hover { border-color: var(--ice); color: var(--ice); }
+
+/* scroll hint */
+.scroll-hint {
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  opacity: 0.03;
-  background: repeating-linear-gradient(45deg,#fff 0,#fff 1px,transparent 1px,transparent 9px);
-  pointer-events: none;
-}
-
-.card-1 { border-top: 3px solid var(--accent-1); }
-.card-2 { border-top: 3px solid var(--accent-2); }
-.card-3 { border-top: 3px solid var(--accent-3); }
-
-/* ===========================
-   BADGE
-   =========================== */
-.badge {
-  display: inline-block;
-  font-size: 0.68rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
+  align-items: center;
+  gap: .5rem;
+  font-size: .68rem;
+  letter-spacing: .2em;
   text-transform: uppercase;
-  padding: 0.3em 0.85em;
-  border-radius: 999px;
-  width: fit-content;
+  color: var(--muted);
+}
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--ice), transparent);
+  animation-name: piscar-linha;
+  animation-duration: 1.6s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+@keyframes piscar-linha {
+  0%, 100% { opacity: 0; }
+  50%       { opacity: 1; }
 }
 
-.card-1 .badge { background: rgba(124,58,237,.15); color: #a78bfa; border: 1px solid rgba(124,58,237,.35); }
-.card-2 .badge { background: rgba(6,182,212,.12);  color: #67e8f9; border: 1px solid rgba(6,182,212,.3);  }
-.card-3 .badge { background: rgba(245,158,11,.12); color: #fcd34d; border: 1px solid rgba(245,158,11,.3); }
+/* ══════════════════════════════════════
+   SEÇÃO MISSÕES — ANIMAÇÃO 2: animation-delay
+   Cada card entra escalonado
+══════════════════════════════════════ */
+.missions {
+  position: relative;
+  z-index: 1;
+  padding: 6rem 3rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
 
-.card h2 {
-  font-family: 'Syne', sans-serif;
-  font-size: 1.35rem;
+.section-label {
+  font-size: .7rem;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: .6rem;
+}
+
+.missions h2 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 700;
   color: #fff;
+  margin-bottom: 3rem;
+  line-height: 1;
 }
 
-.card p { font-size: 0.82rem; color: var(--muted); line-height: 1.75; }
-.card p strong { color: var(--text); }
-.card p code {
-  background: var(--code-bg);
+.mission-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.mission-card {
+  background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 0.05em 0.4em;
-  font-size: 0.78rem;
-  color: #a78bfa;
-}
-
-pre {
-  background: var(--code-bg);
-  border: 1px solid var(--border);
-  border-radius: .5rem;
-  padding: .85rem 1rem;
-  font-size: 0.72rem;
-  color: #67e8f9;
-  line-height: 1.65;
-  overflow-x: auto;
-  margin-top: auto;
-}
-
-/* =====================================================
-   ANIMAÇÃO 1 — animation-name: pulsar
-   ===================================================== */
-.orb {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #c084fc, #7c3aed 60%, #3b0764);
-  box-shadow: 0 0 30px rgba(124,58,237,.6);
-  align-self: center;
-
-  animation-name: pulsar;            /* ← PROPRIEDADE EM DESTAQUE */
-  animation-duration: 2s;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-}
-
-@keyframes pulsar {
-  0%   { transform: scale(1);    box-shadow: 0 0 20px rgba(124,58,237,.5); }
-  50%  { transform: scale(1.38); box-shadow: 0 0 60px rgba(167,139,250,.9); }
-  100% { transform: scale(1);    box-shadow: 0 0 20px rgba(124,58,237,.5); }
-}
-
-/* =====================================================
-   ANIMAÇÃO 2 — animation-delay
-   ===================================================== */
-.dots-container {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  gap: 10px;
-  height: 64px;
-}
-
-.dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 999px;
-  animation-name: subir;
-  animation-duration: 1s;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-}
-
-.dot:nth-child(1) { animation-delay: 0s;    background: #22d3ee; box-shadow: 0 0 8px #22d3ee; }
-.dot:nth-child(2) { animation-delay: 0.18s; background: #38bdf8; box-shadow: 0 0 8px #38bdf8; }
-.dot:nth-child(3) { animation-delay: 0.36s; background: #60a5fa; box-shadow: 0 0 8px #60a5fa; }
-.dot:nth-child(4) { animation-delay: 0.54s; background: #818cf8; box-shadow: 0 0 8px #818cf8; }
-.dot:nth-child(5) { animation-delay: 0.72s; background: #a78bfa; box-shadow: 0 0 8px #a78bfa; }
-
-@keyframes subir {
-  0%, 100% { height: 14px; opacity: .45; }
-  50%       { height: 54px; opacity: 1;  }
-}
-
-/* =====================================================
-   ANIMAÇÃO 3 — animation-direction: alternate-reverse
-   ===================================================== */
-.track {
-  width: 100%;
-  height: 38px;
-  background: rgba(245,158,11,.07);
-  border: 1px solid rgba(245,158,11,.2);
-  border-radius: 999px;
+  border-radius: 6px;
+  padding: 1.8rem;
   position: relative;
   overflow: hidden;
+  opacity: 0;
+  animation-name: entrar-card;
+  animation-duration: .8s;
+  animation-timing-function: cubic-bezier(.16,1,.3,1);
+  animation-fill-mode: forwards;
 }
 
-.runner {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-  width: 38px;
-  height: 22px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, #f59e0b, #ef4444);
-  box-shadow: 0 0 16px rgba(245,158,11,.75), 0 0 34px rgba(245,158,11,.3);
+/* ANIMATION-DELAY escalonado em cada card */
+.mission-card:nth-child(1) { animation-delay: 0.1s; }
+.mission-card:nth-child(2) { animation-delay: 0.3s; }
+.mission-card:nth-child(3) { animation-delay: 0.5s; }
+.mission-card:nth-child(4) { animation-delay: 0.7s; }
 
-  animation-name: deslizar;
-  animation-duration: 1.4s;
+@keyframes entrar-card {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.mission-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--ice), transparent);
+  opacity: .5;
+}
+
+.mission-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.mission-card h3 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: .05em;
+  margin-bottom: .5rem;
+}
+
+.mission-card p {
+  font-size: .82rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.mission-card .status {
+  display: inline-block;
+  margin-top: 1rem;
+  font-size: .65rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  padding: .2em .8em;
+  border-radius: 999px;
+}
+.status-active   { background: rgba(77,232,244,.1);  color: var(--ice); border: 1px solid rgba(77,232,244,.3); }
+.status-planned  { background: rgba(201,168,76,.1);  color: var(--gold); border: 1px solid rgba(201,168,76,.3); }
+.status-complete { background: rgba(100,100,150,.1); color: #8890b0;     border: 1px solid rgba(100,100,150,.3); }
+
+/* ══════════════════════════════════════
+   SEÇÃO PROGRESSO — ANIMAÇÃO 3: alternate-reverse
+   Barra de combustível oscila ida e volta
+══════════════════════════════════════ */
+.progress-section {
+  position: relative;
+  z-index: 1;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 5rem 3rem;
+}
+
+.progress-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.progress-text .section-label { margin-bottom: .6rem; }
+
+.progress-text h2 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.05;
+  margin-bottom: 1rem;
+}
+
+.progress-text p { font-size: .88rem; color: var(--muted); line-height: 1.75; max-width: 380px; }
+
+.gauges { display: flex; flex-direction: column; gap: 1.6rem; }
+
+.gauge-row { display: flex; flex-direction: column; gap: .5rem; }
+
+.gauge-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: .72rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.gauge-meta span:first-child { color: var(--muted); }
+.gauge-meta span:last-child  { color: var(--text); }
+
+.gauge-track {
+  width: 100%;
+  height: 8px;
+  background: var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ANIMAÇÃO 3 — animation-direction: alternate-reverse
+   A barra de combustível oscila de um lado ao outro */
+.gauge-fill {
+  height: 100%;
+  border-radius: 999px;
+  animation-name: combustivel;
+  animation-duration: 2.8s;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
-  animation-direction: alternate-reverse;  /* ← PROPRIEDADE EM DESTAQUE */
+  animation-direction: alternate-reverse;
 }
 
-@keyframes deslizar {
-  from { left: 2px; }
-  to   { left: calc(100% - 40px); }
+.gauge-fill.ice  { background: linear-gradient(90deg, #0a6e8a, var(--ice)); width: 78%; }
+.gauge-fill.gold { background: linear-gradient(90deg, #7a5520, var(--gold)); width: 55%; animation-duration: 3.4s; animation-delay: .4s; }
+.gauge-fill.red  { background: linear-gradient(90deg, #7a1515, var(--red));  width: 32%; animation-duration: 2s;   animation-delay: .8s; }
+
+@keyframes combustivel {
+  from { opacity: .55; transform: scaleX(.6); transform-origin: left; }
+  to   { opacity: 1;   transform: scaleX(1);  transform-origin: left; }
 }
 
-/* ===========================
+/* ══════════════════════════════════════
    FOOTER
-   =========================== */
-.rodape {
+══════════════════════════════════════ */
+footer {
+  position: relative;
+  z-index: 1;
+  padding: 3rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.footer-logo {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: .18em;
   color: var(--muted);
-  font-size: 0.74rem;
-  letter-spacing: .08em;
-  text-align: center;
-  padding-bottom: 1rem;
+}
+.footer-logo span { color: var(--gold); }
+
+footer p { font-size: .72rem; color: var(--muted); letter-spacing: .08em; }
+
+/* ══════════════════════════════════════
+   RESPONSIVO
+══════════════════════════════════════ */
+@media (max-width: 720px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .missions, .progress-section { padding: 4rem 1.5rem; }
+  .progress-inner { grid-template-columns: 1fr; gap: 2.5rem; }
 }
   </style>
 </head>
 <body>
 
-  <header class="hero">
-    <h1 class="titulo">CSS <span>Animações</span></h1>
-    <p class="subtitulo">animation-name · animation-delay · alternate-reverse</p>
-  </header>
+<!-- NAVBAR -->
+<nav>
+  <div class="logo">NEX<span>ORA</span></div>
+  <ul class="nav-links">
+    <li><a href="#">Missões</a></li>
+    <li><a href="#">Tecnologia</a></li>
+    <li><a href="#">Tripulação</a></li>
+    <li><a href="#">Contato</a></li>
+  </ul>
+  <button class="nav-cta">Candidatar-se</button>
+</nav>
 
-  <main class="cards">
+<!-- HERO -->
+<section class="hero">
+  <div class="planet-wrap">
+    <div class="planet"></div>
+    <div class="orbit-ring"><div class="orbit-dot"></div></div>
+  </div>
 
-    <!-- CARD 1: animation-name -->
-    <section class="card card-1">
-      <div class="badge">animation-name</div>
-      <div class="orb"></div>
-      <h2>Pulsar</h2>
-      <p>Um orbe que expande e contrai usando um <strong>nome de animação</strong> personalizado chamado <code>pulsar</code>.</p>
-      <pre><code>@keyframes pulsar { ... }
-animation-name: pulsar;</code></pre>
-    </section>
+  <span class="hero-tag">Missão Kepler-2047</span>
 
-    <!-- CARD 2: animation-delay -->
-    <section class="card card-2">
-      <div class="badge">animation-delay</div>
-      <div class="dots-container">
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
+  <h1>ALÉM DO<br><em>HORIZONTE</em></h1>
+
+  <p>A NEXORA lidera a nova era da exploração espacial profunda. Junte-se a nós na viagem mais ambiciosa da humanidade rumo ao sistema Kepler.</p>
+
+  <div class="hero-btns">
+    <button class="btn-primary">Ver Missões</button>
+    <button class="btn-ghost">Saiba Mais</button>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>Explorar</span>
+  </div>
+</section>
+
+<!-- MISSÕES -->
+<section class="missions">
+  <p class="section-label">// Operações ativas</p>
+  <h2>NOSSAS<br>MISSÕES</h2>
+
+  <div class="mission-grid">
+
+    <div class="mission-card">
+      <div class="mission-icon">🛰️</div>
+      <h3>Orion Deep-IV</h3>
+      <p>Satélite de mapeamento orbital em torno de Kepler-452b. Transmitindo dados há 14 meses consecutivos.</p>
+      <span class="status status-active">Ativa</span>
+    </div>
+
+    <div class="mission-card">
+      <div class="mission-icon">🚀</div>
+      <h3>Vega Launch III</h3>
+      <p>Missão tripulada de longa duração. Seis astronautas em órbita de espera a 240.000 km da Terra.</p>
+      <span class="status status-active">Ativa</span>
+    </div>
+
+    <div class="mission-card">
+      <div class="mission-icon">🌍</div>
+      <h3>Terra Sentinel</h3>
+      <p>Monitoramento climático de alta resolução. Dados abertos para 32 países parceiros da aliança global.</p>
+      <span class="status status-complete">Concluída</span>
+    </div>
+
+    <div class="mission-card">
+      <div class="mission-icon">🔭</div>
+      <h3>Projeto Helios</h3>
+      <p>Sonda solar autônoma rumo à heliopausa. Lançamento previsto para o segundo trimestre de 2025.</p>
+      <span class="status status-planned">Planejada</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROGRESSO / GAUGES -->
+<div class="progress-section">
+  <div class="progress-inner">
+
+    <div class="progress-text">
+      <p class="section-label">// Telemetria ao vivo</p>
+      <h2>STATUS DA<br>FROTA</h2>
+      <p>Monitoramos em tempo real os sistemas críticos de cada nave em operação. Os indicadores refletem leituras médias dos últimos 60 segundos.</p>
+    </div>
+
+    <div class="gauges">
+
+      <div class="gauge-row">
+        <div class="gauge-meta">
+          <span>Combustível Orion-IV</span>
+          <span>78%</span>
+        </div>
+        <div class="gauge-track">
+          <div class="gauge-fill ice"></div>
+        </div>
       </div>
-      <h2>Escalonado</h2>
-      <p>Cada ponto inicia com um <strong>atraso diferente</strong>, criando um efeito cascata por meio do <code>animation-delay</code>.</p>
-      <pre><code>.dot:nth-child(2) {
-  animation-delay: 0.18s;
-}</code></pre>
-    </section>
 
-    <!-- CARD 3: alternate-reverse -->
-    <section class="card card-3">
-      <div class="badge">alternate-reverse</div>
-      <div class="track">
-        <div class="runner"></div>
+      <div class="gauge-row">
+        <div class="gauge-meta">
+          <span>Energia Vega III</span>
+          <span>55%</span>
+        </div>
+        <div class="gauge-track">
+          <div class="gauge-fill gold"></div>
+        </div>
       </div>
-      <h2>Vai e Volta</h2>
-      <p>A barra desliza de ponta a ponta usando <code>animation-direction: alternate-reverse</code> — invertendo o sentido a cada ciclo.</p>
-      <pre><code>animation-direction:
-  alternate-reverse;</code></pre>
-    </section>
 
-  </main>
+      <div class="gauge-row">
+        <div class="gauge-meta">
+          <span>Reserva Helios</span>
+          <span>32%</span>
+        </div>
+        <div class="gauge-track">
+          <div class="gauge-fill red"></div>
+        </div>
+      </div>
 
-  <footer class="rodape">
-    <p>Projeto CSS · Três propriedades de animação em ação</p>
-  </footer>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">NEX<span>ORA</span></div>
+  <p>© 2047 Nexora Space Systems — Todos os direitos reservados</p>
+</footer>
 
 </body>
 </html>
