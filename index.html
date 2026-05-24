@@ -2,277 +2,314 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CSS Animations — Text · Hover · Buttons</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CSS Animações</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <!-- CSS externo (funciona quando aberto localmente) -->
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
+  <!-- CSS inline (garante funcionamento no visualizador) -->
+  <style>
+/* ===========================
+   RESET & VARIÁVEIS
+   =========================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #0a0a12;
+  --surface:  #12121e;
+  --border:   #1e1e30;
+  --accent-1: #7c3aed;
+  --accent-2: #06b6d4;
+  --accent-3: #f59e0b;
+  --text:     #e2e8f0;
+  --muted:    #64748b;
+  --code-bg:  #0d1117;
+  --radius:   1rem;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Mono', monospace;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  padding: 3rem 1.5rem 4rem;
+}
+
+/* ===========================
+   HERO
+   =========================== */
+.hero { text-align: center; padding-top: 1rem; }
+
+.titulo {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2.4rem, 8vw, 4.8rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: #fff;
+}
+
+.titulo span {
+  background: linear-gradient(135deg, #a78bfa, #22d3ee);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitulo {
+  margin-top: 0.75rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ===========================
+   GRID DE CARDS
+   =========================== */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.75rem;
+  width: 100%;
+  max-width: 1080px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background: repeating-linear-gradient(45deg,#fff 0,#fff 1px,transparent 1px,transparent 9px);
+  pointer-events: none;
+}
+
+.card-1 { border-top: 3px solid var(--accent-1); }
+.card-2 { border-top: 3px solid var(--accent-2); }
+.card-3 { border-top: 3px solid var(--accent-3); }
+
+/* ===========================
+   BADGE
+   =========================== */
+.badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.3em 0.85em;
+  border-radius: 999px;
+  width: fit-content;
+}
+
+.card-1 .badge { background: rgba(124,58,237,.15); color: #a78bfa; border: 1px solid rgba(124,58,237,.35); }
+.card-2 .badge { background: rgba(6,182,212,.12);  color: #67e8f9; border: 1px solid rgba(6,182,212,.3);  }
+.card-3 .badge { background: rgba(245,158,11,.12); color: #fcd34d; border: 1px solid rgba(245,158,11,.3); }
+
+.card h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.card p { font-size: 0.82rem; color: var(--muted); line-height: 1.75; }
+.card p strong { color: var(--text); }
+.card p code {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.05em 0.4em;
+  font-size: 0.78rem;
+  color: #a78bfa;
+}
+
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: .5rem;
+  padding: .85rem 1rem;
+  font-size: 0.72rem;
+  color: #67e8f9;
+  line-height: 1.65;
+  overflow-x: auto;
+  margin-top: auto;
+}
+
+/* =====================================================
+   ANIMAÇÃO 1 — animation-name: pulsar
+   ===================================================== */
+.orb {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #c084fc, #7c3aed 60%, #3b0764);
+  box-shadow: 0 0 30px rgba(124,58,237,.6);
+  align-self: center;
+
+  animation-name: pulsar;            /* ← PROPRIEDADE EM DESTAQUE */
+  animation-duration: 2s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+@keyframes pulsar {
+  0%   { transform: scale(1);    box-shadow: 0 0 20px rgba(124,58,237,.5); }
+  50%  { transform: scale(1.38); box-shadow: 0 0 60px rgba(167,139,250,.9); }
+  100% { transform: scale(1);    box-shadow: 0 0 20px rgba(124,58,237,.5); }
+}
+
+/* =====================================================
+   ANIMAÇÃO 2 — animation-delay
+   ===================================================== */
+.dots-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 10px;
+  height: 64px;
+}
+
+.dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  animation-name: subir;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.dot:nth-child(1) { animation-delay: 0s;    background: #22d3ee; box-shadow: 0 0 8px #22d3ee; }
+.dot:nth-child(2) { animation-delay: 0.18s; background: #38bdf8; box-shadow: 0 0 8px #38bdf8; }
+.dot:nth-child(3) { animation-delay: 0.36s; background: #60a5fa; box-shadow: 0 0 8px #60a5fa; }
+.dot:nth-child(4) { animation-delay: 0.54s; background: #818cf8; box-shadow: 0 0 8px #818cf8; }
+.dot:nth-child(5) { animation-delay: 0.72s; background: #a78bfa; box-shadow: 0 0 8px #a78bfa; }
+
+@keyframes subir {
+  0%, 100% { height: 14px; opacity: .45; }
+  50%       { height: 54px; opacity: 1;  }
+}
+
+/* =====================================================
+   ANIMAÇÃO 3 — animation-direction: alternate-reverse
+   ===================================================== */
+.track {
+  width: 100%;
+  height: 38px;
+  background: rgba(245,158,11,.07);
+  border: 1px solid rgba(245,158,11,.2);
+  border-radius: 999px;
+  position: relative;
+  overflow: hidden;
+}
+
+.runner {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 22px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f59e0b, #ef4444);
+  box-shadow: 0 0 16px rgba(245,158,11,.75), 0 0 34px rgba(245,158,11,.3);
+
+  animation-name: deslizar;
+  animation-duration: 1.4s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate-reverse;  /* ← PROPRIEDADE EM DESTAQUE */
+}
+
+@keyframes deslizar {
+  from { left: 2px; }
+  to   { left: calc(100% - 40px); }
+}
+
+/* ===========================
+   FOOTER
+   =========================== */
+.rodape {
+  color: var(--muted);
+  font-size: 0.74rem;
+  letter-spacing: .08em;
+  text-align: center;
+  padding-bottom: 1rem;
+}
+  </style>
 </head>
 <body>
 
-  <!-- HERO -->
   <header class="hero">
-    <div class="hero-eyebrow">40 efeitos criativos</div>
-    <h1 class="hero-title">
-      <span class="word w1">CSS</span>
-      <span class="word w2">Animations</span>
-    </h1>
-    <p class="hero-sub">Text · Hover · Buttons</p>
-    <div class="hero-scroll">↓ role para explorar</div>
+    <h1 class="titulo">CSS <span>Animações</span></h1>
+    <p class="subtitulo">animation-name · animation-delay · alternate-reverse</p>
   </header>
 
-  <!-- 01 TEXT ANIMATIONS -->
-  <section class="chapter" id="text">
-    <div class="chapter-header">
-      <span class="chapter-num">01</span>
-      <h2>Text Animations</h2>
-      <p>Efeitos visuais aplicados diretamente no texto</p>
-    </div>
-    <div class="grid">
+  <main class="cards">
 
-      <div class="demo-card">
-        <div class="demo-label">Typewriter</div>
-        <div class="demo-stage">
-          <p class="text-typewriter">Olá, mundo!</p>
-        </div>
-        <code class="demo-code">animation: typing, blink-caret</code>
+    <!-- CARD 1: animation-name -->
+    <section class="card card-1">
+      <div class="badge">animation-name</div>
+      <div class="orb"></div>
+      <h2>Pulsar</h2>
+      <p>Um orbe que expande e contrai usando um <strong>nome de animação</strong> personalizado chamado <code>pulsar</code>.</p>
+      <pre><code>@keyframes pulsar { ... }
+animation-name: pulsar;</code></pre>
+    </section>
+
+    <!-- CARD 2: animation-delay -->
+    <section class="card card-2">
+      <div class="badge">animation-delay</div>
+      <div class="dots-container">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
       </div>
+      <h2>Escalonado</h2>
+      <p>Cada ponto inicia com um <strong>atraso diferente</strong>, criando um efeito cascata por meio do <code>animation-delay</code>.</p>
+      <pre><code>.dot:nth-child(2) {
+  animation-delay: 0.18s;
+}</code></pre>
+    </section>
 
-      <div class="demo-card">
-        <div class="demo-label">Gradient Shift</div>
-        <div class="demo-stage">
-          <p class="text-gradient">Colorido</p>
-        </div>
-        <code class="demo-code">background-clip: text + animate</code>
+    <!-- CARD 3: alternate-reverse -->
+    <section class="card card-3">
+      <div class="badge">alternate-reverse</div>
+      <div class="track">
+        <div class="runner"></div>
       </div>
+      <h2>Vai e Volta</h2>
+      <p>A barra desliza de ponta a ponta usando <code>animation-direction: alternate-reverse</code> — invertendo o sentido a cada ciclo.</p>
+      <pre><code>animation-direction:
+  alternate-reverse;</code></pre>
+    </section>
 
-      <div class="demo-card">
-        <div class="demo-label">Glitch</div>
-        <div class="demo-stage">
-          <p class="text-glitch" data-text="GLITCH">GLITCH</p>
-        </div>
-        <code class="demo-code">clip-path + translate pseudo-elements</code>
-      </div>
+  </main>
 
-      <div class="demo-card">
-        <div class="demo-label">Wave</div>
-        <div class="demo-stage">
-          <p class="text-wave">
-            <span style="--i:0">W</span><span style="--i:1">A</span>
-            <span style="--i:2">V</span><span style="--i:3">E</span>
-          </p>
-        </div>
-        <code class="demo-code">animation-delay: calc(var(--i) * 0.1s)</code>
-      </div>
-
-      <div class="demo-card dark-stage">
-        <div class="demo-label">Neon Glow</div>
-        <div class="demo-stage stage-dark">
-          <p class="text-neon">NEON</p>
-        </div>
-        <code class="demo-code">text-shadow pulse animation</code>
-      </div>
-
-      <div class="demo-card">
-        <div class="demo-label">Blur In (hover)</div>
-        <div class="demo-stage">
-          <p class="text-blur">Foco</p>
-        </div>
-        <code class="demo-code">filter: blur() → 0 on hover</code>
-      </div>
-
-      <div class="demo-card">
-        <div class="demo-label">Wipe Reveal</div>
-        <div class="demo-stage">
-          <p class="text-wipe">Revelado</p>
-        </div>
-        <code class="demo-code">clip-path: inset() animate</code>
-      </div>
-
-      <div class="demo-card">
-        <div class="demo-label">Shake (hover)</div>
-        <div class="demo-stage">
-          <p class="text-shake">Segura!</p>
-        </div>
-        <code class="demo-code">translateX keyframes shake</code>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- 02 HOVER EFFECTS -->
-  <section class="chapter" id="hover">
-    <div class="chapter-header">
-      <span class="chapter-num">02</span>
-      <h2>Hover Effects</h2>
-      <p>Interações ativadas ao passar o mouse</p>
-    </div>
-    <div class="grid">
-
-      <div class="demo-card">
-        <div class="demo-label">Magnetic Lift</div>
-        <div class="demo-stage">
-          <div class="hover-lift">Card</div>
-        </div>
-        <code class="demo-code">transform: translateY + box-shadow</code>
-      </div>
-
-      <div class="demo-card">
-        <div class="demo-label">Border Draw</div>
-        <div class="demo-stage">
-          <div class="hover-border-draw">Hover</div>
-        </div>
-        <code class="demo-code">pseudo-element width/height 0→100%</code>
-      </div>
-
-      <div class="demo-card">
-        <div class="demo-label">3D Tilt</div>
-        <div class="demo-stage">
-          <div class="hover-tilt">Inclinar</div>
-        </div>
-        <code class="demo-code">rotateX/Y + perspective</code>
-      </div>
-
-      <div class="demo-card">
-        <div class="demo-label">Fill From Bottom</div>
-        <div class="demo-stage">
-          <div class="hover-fill">Preencher</div>
-        </div>
-        <code class="demo-code">pseudo-element scaleY 0→1</code>
-      </div>
-
-      <div class="demo-card dark-stage">
-        <div class="demo-label">Spotlight</div>
-        <div class="demo-stage stage-dark">
-          <div class="hover-spotlight">Spotlight</div>
-        </div>
-        <code class="demo-code">radial-gradient background-position</code>
-      </div>
-
-      <div class="demo-card">
-        <div class="demo-label">Rubber Band</div>
-        <div class="demo-stage">
-          <div class="hover-rubber">Elástico</div>
-        </div>
-        <code class="demo-code">scaleX/Y alternating keyframes</code>
-      </div>
-
-      <div class="demo-card dark-stage">
-        <div class="demo-label">Glow Ring</div>
-        <div class="demo-stage stage-dark">
-          <div class="hover-glow">Brilho</div>
-        </div>
-        <code class="demo-code">box-shadow expand on hover</code>
-      </div>
-
-      <div class="demo-card">
-        <div class="demo-label">Flip Card</div>
-        <div class="demo-stage">
-          <div class="hover-flip-wrap">
-            <div class="hover-flip">
-              <div class="flip-front">Frente</div>
-              <div class="flip-back">Verso ✓</div>
-            </div>
-          </div>
-        </div>
-        <code class="demo-code">rotateY 0→180deg + backface-visibility</code>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- 03 BUTTON ANIMATIONS -->
-  <section class="chapter" id="buttons">
-    <div class="chapter-header">
-      <span class="chapter-num">03</span>
-      <h2>Button Animations</h2>
-      <p>Botões com vida própria</p>
-    </div>
-    <div class="grid grid-buttons">
-
-      <div class="demo-card">
-        <div class="demo-label">Slide Arrow</div>
-        <div class="demo-stage">
-          <button class="btn btn-arrow">Enviar <span class="arrow">→</span></button>
-        </div>
-        <code class="demo-code">arrow translateX on hover</code>
-      </div>
-
-      <div class="demo-card">
-        <div class="demo-label">Ripple</div>
-        <div class="demo-stage">
-          <button class="btn btn-ripple">Clique aqui</button>
-        </div>
-        <code class="demo-code">pseudo-element scale 0→3 fade-out</code>
-      </div>
-
-      <div class="demo-card">
-        <div class="demo-label">Shimmer</div>
-        <div class="demo-stage">
-          <button class="btn btn-shimmer">Premium</button>
-        </div>
-        <code class="demo-code">gradient translateX -100%→100%</code>
-      </div>
-
-      <div class="demo-card dark-stage">
-        <div class="demo-label">Pulse Border</div>
-        <div class="demo-stage stage-dark">
-          <button class="btn btn-pulse">Ativo</button>
-        </div>
-        <code class="demo-code">box-shadow scale keyframe loop</code>
-      </div>
-
-      <div class="demo-card">
-        <div class="demo-label">Fill Outline</div>
-        <div class="demo-stage">
-          <button class="btn btn-outline">Explorar</button>
-        </div>
-        <code class="demo-code">background-size 0→100% on hover</code>
-      </div>
-
-      <div class="demo-card">
-        <div class="demo-label">Morph Shape</div>
-        <div class="demo-stage">
-          <button class="btn btn-morph">Transformar</button>
-        </div>
-        <code class="demo-code">border-radius animate on hover</code>
-      </div>
-
-      <div class="demo-card">
-        <div class="demo-label">3D Press</div>
-        <div class="demo-stage">
-          <button class="btn btn-3d">Pressionar</button>
-        </div>
-        <code class="demo-code">translateY + box-shadow on active</code>
-      </div>
-
-      <div class="demo-card dark-stage">
-        <div class="demo-label">Neon Button</div>
-        <div class="demo-stage stage-dark">
-          <button class="btn btn-neon">Cyber</button>
-        </div>
-        <code class="demo-code">text-shadow + box-shadow pulse</code>
-      </div>
-
-    </div>
-  </section>
-
-  <footer class="site-footer">
-    <p>Página 2 de 2 · <strong>CSS Creative Animations</strong> · Text · Hover · Buttons</p>
+  <footer class="rodape">
+    <p>Projeto CSS · Três propriedades de animação em ação</p>
   </footer>
-
-  <script>
-    document.querySelectorAll('.btn-ripple').forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        const circle = document.createElement('span');
-        circle.classList.add('ripple-circle');
-        const rect = this.getBoundingClientRect();
-        circle.style.left = (e.clientX - rect.left) + 'px';
-        circle.style.top  = (e.clientY - rect.top)  + 'px';
-        this.appendChild(circle);
-        setTimeout(() => circle.remove(), 700);
-      });
-    });
-  </script>
 
 </body>
 </html>
